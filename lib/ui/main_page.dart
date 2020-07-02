@@ -4,15 +4,20 @@ import 'package:bloccase/bloc/authentication/authentication_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   final AuthenticationBloc authenticationBloc;
 
   const MainPage({Key key, this.authenticationBloc}) : super(key: key);
 
   @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        bloc: authenticationBloc,
+        bloc: widget.authenticationBloc,
         builder: (context, authState) {
           return Scaffold(
             body: Container(

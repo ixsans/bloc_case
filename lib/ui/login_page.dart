@@ -61,31 +61,25 @@ class LoginForm extends StatelessWidget {
             );
         }
       },
-      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text('LOGIN PAGE'),
-              SizedBox(
-                height: 100,
-              ),
-              (state is AuthenticationSuccessState)
-                  ? Text('Logged In')
-                  : SizedBox(),
-              RaisedButton(
-                onPressed: () {
-                  BlocProvider.of<LoginBloc>(context).add(
-                      LoginButtonPressed(email: 'admin', password: 'admin'));
-                },
-                child: Text('Login'),
-              ),
-            ],
-          ),
-        );
-      }),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Text('LOGIN PAGE'),
+            SizedBox(
+              height: 100,
+            ),
+            RaisedButton(
+              onPressed: () {
+                BlocProvider.of<LoginBloc>(context)
+                    .add(LoginButtonPressed(email: 'admin', password: 'admin'));
+              },
+              child: Text('Login'),
+            ),
+          ],
+        ),
+      ),
     ));
   }
 }

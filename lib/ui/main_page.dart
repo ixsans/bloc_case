@@ -1,7 +1,6 @@
 import 'package:bloccase/bloc/authentication/authentication_bloc.dart';
 import 'package:bloccase/bloc/authentication/authentication_event.dart';
 import 'package:bloccase/bloc/authentication/authentication_state.dart';
-import 'package:bloccase/ui/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,35 +25,20 @@ class MainPage extends StatelessWidget {
                     (authState is AuthenticationLoadingState)
                         ? CircularProgressIndicator()
                         : SizedBox(),
-                    Text(authState is AuthenticationLoggedIn
+                    Text(authState is AuthenticationSuccessState
                         ? 'Logged In'
                         : 'Not logged in'),
                     SizedBox(height: 100),
                     RaisedButton(
-                        onPressed: () {
-                          if (authState is AuthenticationLoggedIn) {
-                            BlocProvider.of<AuthenticationBloc>(context)
-                                .add(AuthenticationLoggedOut());
-                          } else {
-                            Navigator.pushNamed(context, '/login');
-                          }
-                        },
-                        child: Text(authState is AuthenticationLoggedIn
-                            ? 'Logout'
-                            : 'Open Login Page')),
-                    /*RaisedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SecondPage(
-                                      authenticationBloc:
-                                          BlocProvider.of<AuthenticationBloc>(
-                                              context),
-                                    )));
+                        if (authState is AuthenticationSuccessState) {
+                          Navigator.pushNamed(context, '/profile');
+                        } else {
+                          Navigator.pushNamed(context, '/login');
+                        }
                       },
-                      child: Text('Second Page'),
-                    )*/
+                      child: Text('Profile'),
+                    ),
                   ],
                 ),
               ),

@@ -1,15 +1,14 @@
 import 'package:bloccase/app_bloc_delegate.dart';
 import 'package:bloccase/repository/repository.dart';
-import 'package:bloccase/ui/loading_page.dart';
 import 'package:bloccase/ui/login_page.dart';
 import 'package:bloccase/ui/main_page.dart';
-import 'package:bloccase/ui/second_page.dart';
+import 'package:bloccase/ui/profile_page.dart';
 import 'package:bloccase/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'bloc/authentication/authentication_bloc.dart';
 import 'bloc/authentication/authentication_event.dart';
-import 'bloc/authentication/authentication_state.dart';
 import 'bloc/login/login_bloc.dart';
 
 void main() {
@@ -56,7 +55,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(
               authenticationBloc: authenticationBloc,
             ),
-        '/second_page': (context) => SecondPage(),
+        '/profile': (context) => ProfilePage(),
       },
     );
   }

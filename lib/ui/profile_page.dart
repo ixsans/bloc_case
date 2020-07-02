@@ -7,44 +7,38 @@ import 'package:bloccase/bloc/login/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatefulWidget {
-  final AuthenticationBloc authenticationBloc;
+class ProfilePage extends StatefulWidget {
+  //final AuthenticationBloc authenticationBloc;
 
-  const LoginPage({Key key, @required this.authenticationBloc})
-      : super(key: key);
+  /* const ProfilePage({Key key, @required this.authenticationBloc})
+      : super(key: key);*/
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: LoginForm(
-      authenticationBloc: widget.authenticationBloc,
-    ));
+        body: ProfileContentPage(
+            /*authenticationBloc: widget.authenticationBloc,*/
+            ));
   }
 }
 
-class LoginForm extends StatelessWidget {
-  final AuthenticationBloc authenticationBloc;
+class ProfileContentPage extends StatelessWidget {
+  //final AuthenticationBloc authenticationBloc;
 
-  const LoginForm({Key key, this.authenticationBloc}) : super(key: key);
+  //const ProfileContentPage({Key key, this.authenticationBloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: BlocListener<LoginBloc, LoginState>(
-      bloc: BlocProvider.of<LoginBloc>(context),
+        child: BlocListener<AuthenticationBloc, AuthenticationState>(
+      bloc: BlocProvider.of<AuthenticationBloc>(context),
       listener: (ctx, loginState) {
-        if (loginState is LoginSuccessState) {
-          //trigger auth bloc
-          authenticationBloc.add(AuthenticationLoggedIn(loginState.token));
-
-          //redirect to main and clear route stacks
-          Navigator.pushNamedAndRemoveUntil(context, "/main", (r) => false);
-        } else if (loginState is LoginLoadingState) {
+        if (loginState is AuthenticationLoadingState) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -53,12 +47,19 @@ class LoginForm extends StatelessWidget {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Login...'),
+                    Text('Logout...'),
                     CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
+        } else if (loginState is AuthenticationFailureState) {
+          //trigger auth bloc
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(AuthenticationLoggedOut());
+
+          //redirect to main and clear route stacks
+          Navigator.pushNamedAndRemoveUntil(context, "/main", (r) => false);
         }
       },
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -68,19 +69,16 @@ class LoginForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Text('LOGIN PAGE'),
+              Text('PROFILE PAGE'),
               SizedBox(
                 height: 100,
               ),
-              (state is AuthenticationSuccessState)
-                  ? Text('Logged In')
-                  : SizedBox(),
               RaisedButton(
                 onPressed: () {
-                  BlocProvider.of<LoginBloc>(context).add(
-                      LoginButtonPressed(email: 'admin', password: 'admin'));
+                  BlocProvider.of<AuthenticationBloc>(context)
+                      .add(AuthenticationLoggedOut());
                 },
-                child: Text('Login'),
+                child: Text('Logout'),
               ),
             ],
           ),
